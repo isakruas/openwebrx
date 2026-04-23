@@ -1440,3 +1440,76 @@ img.openwebrx-mirror-img
 .under-construction:hover .under-construction-description {
 	max-height: 500px;
 }
+
+/* PTT Chat */
+.owrx-ptt-toggle-line {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid #444;
+}
+
+.owrx-ptt-toggle-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.owrx-ptt-connect-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.owrx-ptt-connect-btn.active {
+    background: #1a4a1a;
+    color: #7ef07e;
+}
+
+.owrx-ptt-btn-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.owrx-ptt-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #8d1f1f;
+    background: linear-gradient(180deg, #c94040 0%, #8f2020 100%);
+    color: #fff;
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+.owrx-ptt-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.owrx-ptt-btn.pressed {
+    border-color: #157546;
+    background: linear-gradient(180deg, #34b96f 0%, #1f7a43 100%);
+}
+
+.owrx-ptt-status {
+    font-size: 11px;
+    color: #aaa;
+    text-align: center;
+    padding: 2px 0 4px;
+}
+
+.owrx-ptt-error {
+    font-size: 11px;
+    color: #f88;
+    text-align: center;
+    padding: 2px 4px 4px;
+    word-break: break-word;
+}

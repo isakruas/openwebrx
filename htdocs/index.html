@@ -31,7 +31,7 @@
         <link rel="icon" type="image/png" sizes="128x128" href="static/gfx/favicon128.png" />
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <meta name="msapplication-TileImage" content="mstile-144x144.png">
-        <script src="compiled/receiver.js"></script>
+        <script src="compiled/receiver.js?v=2"></script>
         <link rel="stylesheet" type="text/css" href="static/lib/nanoscroller.css" />
         <link rel="stylesheet" type="text/css" href="static/css/openwebrx.css" />
         <meta charset="utf-8">
@@ -225,6 +225,28 @@
                         <div id="openwebrx-smeter">
                             <div class="openwebrx-smeter-bar"></div>
                         </div>
+                    </div>
+                    <div class="openwebrx-panel-line owrx-ptt-toggle-line">
+                        <div class="openwebrx-button owrx-ptt-toggle-btn" onclick="owrxPttToggle()" title="Chat PTT com outros ouvintes desta estação">
+                            <svg viewBox="0 0 24 24" width="14" height="14" style="vertical-align:middle;margin-right:4px;"><path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm-5-3a1 1 0 1 1 2 0 3 3 0 0 0 6 0 1 1 0 1 1 2 0 5 5 0 0 1-4 4.9V20h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-3.1A5 5 0 0 1 7 12Z" fill="currentColor"/></svg>
+                            Chat PTT
+                        </div>
+                    </div>
+                    <div id="owrx-ptt-panel" style="display:none;">
+                        <div class="openwebrx-panel-line">
+                            <div class="openwebrx-button owrx-ptt-connect-btn" id="owrx-ptt-connect-btn" onclick="owrxPttToggleConnect()">Ativar Áudio</div>
+                        </div>
+                        <div class="owrx-ptt-btn-wrap">
+                            <button class="owrx-ptt-btn" id="owrx-ptt-btn" disabled
+                                onpointerdown="owrxPttStart(event)"
+                                onpointerup="owrxPttStop(event)"
+                                onpointercancel="owrxPttStop(event)"
+                                onpointerleave="owrxPttStop(event)">
+                                <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3Zm-5-3a1 1 0 1 1 2 0 3 3 0 0 0 6 0 1 1 0 1 1 2 0 5 5 0 0 1-4 4.9V20h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-3.1A5 5 0 0 1 7 12Z" fill="currentColor"/></svg>
+                            </button>
+                        </div>
+                        <div id="owrx-ptt-status" class="owrx-ptt-status">Desconectado</div>
+                        <div id="owrx-ptt-error" class="owrx-ptt-error" style="display:none;"></div>
                     </div>
                 </div>
             </div>
