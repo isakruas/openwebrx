@@ -1,0 +1,23 @@
+services:
+  openwebrx:
+    image: openwebrx-rtlsdr:latest-aarch64
+    container_name: openwebrx
+    restart: unless-stopped
+    ports:
+      - "8073:8073"
+    volumes:
+      - ./openwebrx-settings:/var/lib/openwebrx
+      - ./openwebrx-settings/bands.json:/etc/openwebrx/bands.json:ro
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+    tmpfs:
+      - /tmp/openwebrx:size=512m,mode=1777
+    environment:
+      - TZ=America/Sao_Paulo
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
