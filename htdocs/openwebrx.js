@@ -51,6 +51,65 @@ function toggleMute() {
     updateVolume();
 }
 
+var _recorder = null;
+var _recorderChunks = [];
+var _recorderStream = null;
+
+function toggleRecording() {
+    if (_recorder && _recorder.state === 'recording') {
+        _recorder.stop();
+        return;
+    }
+
+    if (!audioEngine || !audioEngine.gainNode || !audioEngine.audioContext) {
+        alert('Aguarde o áudio inicializar antes de gravar.');
+        return;
+    }
+
+    if (!window.MediaRecorder) {
+        alert('Seu navegador não suporta gravação de áudio.');
+        return;
+    }
+
+    try {
+        var dest = audioEngine.audioContext.createMediaStreamDestination();
+        audioEngine.gainNode.connect(dest);
+        _recorderStream = dest;
+        _recorderChunks = [];
+        _recorder = new MediaRecorder(dest.stream);
+        _recorder.ondataavailable = function(e) {
+            if (e.data && e.data.size > 0) _recorderChunks.push(e.data);
+        };
+        _recorder.onstop = function() {
+            $('#openwebrx-record-button').removeClass('recording');
+            $('#openwebrx-record-label').text('Gravar');
+            audioEngine.gainNode.disconnect(dest);
+            _recorderStream = null;
+            var mime = _recorder.mimeType || 'audio/webm';
+            var ext = mime.indexOf('ogg') >= 0 ? 'ogg' : 'webm';
+            var blob = new Blob(_recorderChunks, {type: mime});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            var now = new Date();
+            var ts = now.toISOString().replace(/[:.]/g, '-').slice(0, 19);
+            a.href = url;
+            a.download = 'openwebrx-rec-' + ts + '.' + ext;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+            _recorder = null;
+            _recorderChunks = [];
+        };
+        _recorder.start();
+        $('#openwebrx-record-button').addClass('recording');
+        $('#openwebrx-record-label').text('Parar');
+    } catch(e) {
+        console.error('Recording error:', e);
+        alert('Erro ao iniciar gravação: ' + e.message);
+    }
+}
+
 function zoomInOneStep() {
     zoom_set(zoom_level + 1);
 }

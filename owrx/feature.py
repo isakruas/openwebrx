@@ -92,6 +92,7 @@ class FeatureDetector(object):
         "redsea": ["redsea"],
         "dab": ["csdreti", "dablin"],
         "mqtt": ["paho_mqtt"],
+        "multimon_ng": ["multimon_ng"],
     }
 
     def feature_availability(self):
@@ -484,6 +485,14 @@ class FeatureDetector(object):
         WSJT-X version 2.4 introduced the Q65 mode.
         """
         return self.has_wsjtx() and self._has_wsjtx_version(LooseVersion("2.4"))
+
+    def has_multimon_ng(self):
+        """
+        `multimon-ng` is required for CW (Morse code) decoding.
+
+        Install it with: `apt install multimon-ng`
+        """
+        return self.command_is_runnable("multimon-ng")
 
     def has_msk144decoder(self):
         """

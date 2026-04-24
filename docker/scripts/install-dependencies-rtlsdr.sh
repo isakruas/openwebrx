@@ -18,7 +18,7 @@ function cmakebuild() {
 
 cd /tmp
 
-STATIC_PACKAGES="libusb-1.0.0"
+STATIC_PACKAGES="libusb-1.0.0 multimon-ng"
 BUILD_PACKAGES="git libusb-1.0.0-dev cmake make gcc g++ pkg-config"
 
 apt-get update

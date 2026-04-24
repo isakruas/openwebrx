@@ -902,8 +902,45 @@ img.openwebrx-mirror-img
 {
     overflow-y: hidden;
     display: none;
-    height: 50px;
+    height: 70px;
     position: relative;
+}
+
+#openwebrx-digimode-clear
+{
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    z-index: 20;
+    background: rgba(60,60,60,0.85);
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10pt;
+    cursor: pointer;
+    display: none;
+}
+
+#openwebrx-panel-digimodes[data-mode="cw"] #openwebrx-digimode-clear
+{
+    display: block;
+}
+
+#openwebrx-record-button
+{
+    color: #ccc;
+}
+
+#openwebrx-record-button.recording
+{
+    color: #e33;
+    animation: record-blink 1s step-start infinite;
+}
+
+@keyframes record-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
 }
 
 #openwebrx-digimode-content-container .gradient
@@ -1271,6 +1308,7 @@ img.openwebrx-mirror-img
 
 #openwebrx-panel-digimodes[data-mode^="bpsk"] #openwebrx-digimode-content-container,
 #openwebrx-panel-digimodes[data-mode^="rtty"] #openwebrx-digimode-content-container,
+#openwebrx-panel-digimodes[data-mode="cw"] #openwebrx-digimode-content-container,
 #openwebrx-panel-digimodes[data-mode^="bpsk"] #openwebrx-digimode-select-channel,
 #openwebrx-panel-digimodes[data-mode^="rtty"] #openwebrx-digimode-select-channel
 {
@@ -1282,6 +1320,18 @@ img.openwebrx-mirror-img
 {
     height: 150px;
     margin-bottom: 0;
+}
+
+#openwebrx-panel-digimodes[data-mode="cw"] #openwebrx-digimode-canvas-container
+{
+    height: 130px;
+    margin-bottom: 8px;
+}
+
+#openwebrx-panel-digimodes[data-mode="cw"] #openwebrx-digimode-content-container
+{
+    position: relative;
+    z-index: 2;
 }
 
 .openwebrx-zoom-button svg {

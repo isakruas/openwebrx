@@ -122,7 +122,7 @@ class Modes(object):
         AnalogMode("am", "AM", bandpass=Bandpass(-4000, 4000)),
         AnalogMode("lsb", "LSB", bandpass=Bandpass(-3000, -300)),
         AnalogMode("usb", "USB", bandpass=Bandpass(300, 3000)),
-        AnalogMode("cw", "CW", bandpass=Bandpass(700, 900)),
+        DigitalMode("cw", "CW", underlying=["usb"], bandpass=Bandpass(700, 900), requirements=["multimon_ng"]),
         AnalogMode("dmr", "DMR", bandpass=Bandpass(-6250, 6250), requirements=["digital_voice_digiham"], squelch=False),
         AnalogMode(
             "dstar", "D-Star", bandpass=Bandpass(-3250, 3250), requirements=["digital_voice_digiham"], squelch=False

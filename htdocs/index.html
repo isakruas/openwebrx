@@ -68,6 +68,7 @@
                     </div>
                     <div id="openwebrx-digimode-content-container">
                         <div class="gradient"></div>
+                        <button id="openwebrx-digimode-clear" onclick="document.getElementById('openwebrx-digimode-content').innerHTML='<span id=\'openwebrx-cursor-blink\'></span>'">&#x2715; Limpar</button>
                         <div id="openwebrx-digimode-content">
                             <span id="openwebrx-cursor-blink"></span>
                         </div>
@@ -190,6 +191,12 @@
                     <div class="openwebrx-panel-line">
                         <select id="openwebrx-sdr-profiles-listbox" onchange="sdr_profile_changed();">
                         </select>
+                    </div>
+                    <div class="openwebrx-panel-line">
+                        <div title="Gravar áudio / Parar e baixar" id="openwebrx-record-button" class="openwebrx-button owrx-ptt-toggle-btn" onclick="toggleRecording();">
+                            <svg viewBox="0 0 24 24" width="14" height="14" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="7" fill="currentColor"/></svg>
+                            <span id="openwebrx-record-label">Gravar</span>
+                        </div>
                     </div>
                     <div class="openwebrx-modes openwebrx-panel-line"></div>
                     <div class="openwebrx-panel-line">
