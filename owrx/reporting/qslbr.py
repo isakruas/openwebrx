@@ -101,6 +101,11 @@ class QslBrReporter(FilteredReporter):
 
     def spot(self, spot):
         try:
+            from owrx.bandrotation import BandRotationManager
+            BandRotationManager.getSharedInstance().recordSpot()
+        except Exception:
+            logger.exception("BandRotationManager.recordSpot failed")
+        try:
             self.queue.put(spot, block=False)
             self.spotCounter.inc()
         except Full:

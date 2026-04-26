@@ -79,6 +79,8 @@ class Schedule(ABC):
                 return StaticSchedule(sc["schedule"])
             elif t == "daylight":
                 return DaylightSchedule(sc["schedule"])
+            elif t == "adaptive":
+                return AdaptiveSchedule(sc)
             else:
                 logger.warning("Invalid scheduler type: %s", t)
         # downwards compatibility
@@ -92,6 +94,56 @@ class Schedule(ABC):
     @abstractmethod
     def getNextEntry(self):
         pass
+
+
+class AdaptiveScheduleEntry(ScheduleEntry):
+    def __init__(self, profile):
+        super().__init__(None, None, profile)
+
+    def isCurrent(self, dt):
+        return True
+
+    def getScheduledEnd(self):
+        return datetime.utcnow() + timedelta(hours=24)
+
+    def getNextActivation(self):
+        return datetime.utcnow()
+
+
+class AdaptiveSchedule(Schedule):
+    def __init__(self, scheduleConfig):
+        self.profiles = list(scheduleConfig["profiles"]) if "profiles" in scheduleConfig else []
+        self.no_spot_timeout = scheduleConfig["no_spot_timeout"] if "no_spot_timeout" in scheduleConfig else 180
+        self.max_spots_per_band = scheduleConfig["max_spots_per_band"] if "max_spots_per_band" in scheduleConfig else 300
+        self._current_index = 0
+        self._lock = threading.Lock()
+
+    def advance(self):
+        with self._lock:
+            if not self.profiles:
+                return
+            self._current_index = (self._current_index + 1) % len(self.profiles)
+            logger.info(
+                "AdaptiveSchedule: switched to profile [%d/%d]: %s",
+                self._current_index + 1,
+                len(self.profiles),
+                self.profiles[self._current_index],
+            )
+
+    def getCurrentProfile(self):
+        with self._lock:
+            if not self.profiles:
+                return None
+            return self.profiles[self._current_index]
+
+    def getCurrentEntry(self):
+        profile = self.getCurrentProfile()
+        if profile is None:
+            return None
+        return AdaptiveScheduleEntry(profile)
+
+    def getNextEntry(self):
+        return None
 
 
 class TimerangeSchedule(Schedule, metaclass=ABCMeta):
@@ -222,6 +274,9 @@ class ServiceScheduler(SdrSourceEventClient):
     def parseSchedule(self, *args):
         props = self.source.getProps()
         self.schedule = Schedule.parse(props)
+        if isinstance(self.schedule, AdaptiveSchedule):
+            from owrx.bandrotation import BandRotationManager
+            BandRotationManager.getSharedInstance().setup(self, self.schedule)
         self.scheduleSelection()
 
     def shutdown(self):
