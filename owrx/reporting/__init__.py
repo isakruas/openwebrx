@@ -3,6 +3,7 @@ from owrx.config import Config
 from owrx.reporting.reporter import Reporter, FilteredReporter
 from owrx.reporting.pskreporter import PskReporter
 from owrx.reporting.wsprnet import WsprnetReporter
+from owrx.reporting.qslbr import QslBrReporter
 from owrx.feature import FeatureDetector
 import logging
 
@@ -18,6 +19,7 @@ class ReportingEngine(object):
     reporterClasses = {
         "pskreporter": PskReporter,
         "wsprnet": WsprnetReporter,
+        "qslbr": QslBrReporter,
         "mqtt": ("owrx.reporting.mqtt", "MqttReporter")
     }
 
